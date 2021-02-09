@@ -69,7 +69,6 @@ function registerShortcut(shortcut, action, prefs) {
 		}
 	}
 
-	console.log(def)
 	let length = shortcuts.active.length;
 
 	shortcuts.active[length] = {
@@ -144,8 +143,7 @@ document.body.addEventListener("keydown", (e) => {
 document.body.addEventListener("keyup", (e) => {
 	checkShortcut()
 
-	console.log(global.keys)
 	setHeld(e.key, false)
 })
 
-registerShortcut("Ctrl-Y","console.log('stuff')")
+//registerShortcut("Ctrl-Y","console.log('stuff')")
