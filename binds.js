@@ -4,19 +4,42 @@ const shortcuts = {
 }
 
 // Variable for currently held keys
+// Maybe I should change global.keys to something else.
+// It kinda sounds weird, considering there's nothing else under global.
+// The reason I had it originally is mildly complicated.
 var global = {
 	keys: {
+		other: "",
 		Alt: false,
 		Meta: false,
 		Shift: false,
 		Control: false,
-		other: "",
 	}
 }
 
 // Make new shortcut
-function registerShortcut(shortcut, action, type) {
-	if (!type) {presstype = "up"} else {presstype = type};
+function registerShortcut(shortcut, action, prefs) {
+	def = {
+		toLowerCase: true,
+		pressType: "up"
+	};
+
+	if (prefs != undefined) {
+		// Unreadable and arguably "bad" code
+		// Refactor later!
+		let objPrefs = Object.keys(prefs); 
+		let objDef = Object.keys(def);
+
+		for (let i = 0; i < objPrefs.length; i++) {
+			for (let ii = 0; ii < objDef.length; ii++) {
+				if (objPrefs[i] == objDef[ii]) {
+					if (eval(`prefs.${objPrefs[i]}`) != eval(`def.${objDef[i]}`) && eval(`prefs.${objPrefs[i]}`) != undefined) {
+						eval(`def.${objDef[ii]} = prefs.${objPrefs[i]}`)
+					}
+				}
+			}
+		}
+	}
 
 	let keys = shortcut.split("+");
 
@@ -41,16 +64,18 @@ function registerShortcut(shortcut, action, type) {
 			case "option":
 				keys[i] = "alt";
 				break;
+			default:
+				if (def.toLowerCase) { keys[i] = keys[i].toLowerCase() }
 		}
 	}
 
-	console.log("setting shortcut: " + keys.join("+"))
+	console.log(def)
 	let length = shortcuts.active.length;
 
 	shortcuts.active[length] = {
 		shortcut: keys,
 		action: action,
-		type: presstype,
+		type: "up",
 	}	
 }
 
@@ -123,3 +148,4 @@ document.body.addEventListener("keyup", (e) => {
 	setHeld(e.key, false)
 })
 
+registerShortcut("Ctrl-Y","console.log('stuff')")
