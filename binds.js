@@ -21,7 +21,7 @@ var global = {
 function registerShortcut(shortcut, action, prefs) {
 	def = {
 		toLowerCase: true,
-		pressType: "up"
+		pressType: "up" // This option does nothing currently, purely here for future use
 	};
 
 	if (prefs != undefined) {
@@ -69,9 +69,7 @@ function registerShortcut(shortcut, action, prefs) {
 		}
 	}
 
-	let length = shortcuts.active.length;
-
-	shortcuts.active[length] = {
+	shortcuts.active[shortcuts.active.length] = {
 		shortcut: keys,
 		action: action,
 		type: "up",
@@ -83,10 +81,10 @@ function setHeld(key, state) {
 	let modifier = false;
 
 	switch(key) {
-		case "Control":
-		case "Shift":
-		case "Meta":
 		case "Alt":
+		case "Meta":
+		case "Shift":
+		case "Control":
 			modifier = true;
 			break;
 	}
